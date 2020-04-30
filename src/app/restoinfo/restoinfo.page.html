@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>restoinfo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="topcontainer"></div>
+  <div class="containerform">
+    <form [formGroup]="form">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Name</ion-label>
+              <ion-input
+                type="text"
+                formControlName="name"
+                autocomplete
+                autocorrect
+                ></ion-input>
+              </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Address</ion-label>
+              <ion-input
+                type="text"
+                formControlName="address"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button
+            type="submit"
+            expand="block"
+            color="primary"
+            (click)="onCreateRestocard()"
+            [disabled]="!form.valid"
+            >Add Card</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
+</ion-content>

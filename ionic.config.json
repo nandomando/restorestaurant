@@ -1,5 +1,8 @@
 {
   "name": "restorestaurant",
-  "integrations": {},
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
   "type": "angular"
 }
