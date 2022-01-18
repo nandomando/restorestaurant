@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 
 interface UserCardFetch {
   id: string;
-  photo: string;
+  imageUrl: string;
   name: string;
   address: string;
   points: number;
@@ -42,18 +42,63 @@ export class UsercardsService {
   ) { }
 
 
+  // fetchUserCardsexperiment() {
+  //   let fetchedUserId: string;
+  //   return this.authService.userId.pipe(
+  //     take(1),
+  //     switchMap(userId => {
+  //     if (!userId) {
+  //       throw new Error('User not found!');
+  //     }
+  //     fetchedUserId = userId;
+  //     return this.authService.token;
+  //   }),
+  //   take(1),
+  //   switchMap(token => {
+  //     return this.http
+  //     .get<{[key: string]: UserCardFetch}>(
+  //       `https://resto-57119.firebaseio.com/usercards.json?orderBy="userId"&equalTo="${fetchedUserId}"&auth=${token}`
+  //     );
+  //   }),
+  //   map(resData => {
+  //     const Usercardarr = [];
+  //     for (const key in resData) {
+  //       if (resData.hasOwnProperty(key)) {
+  //         Usercardarr.push(new Usercard(
+  //           key,
+  //           resData[key].imageUrl,
+  //           resData[key].name,
+  //           resData[key].address,
+  //           resData[key].points,
+  //           resData[key].freemeal,
+  //           resData[key].restoId,
+  //           resData[key].userId,
+  //           )
+  //         );
+  //       }
+  //     }
+  //     return Usercardarr;
+  //   }),
+  //   tap(usercards => {
+  //     this._usercards.next(usercards);
+  //   })
+  //   );
+  // }
+
+
 
   fetchOnlyUsercartas(id: string) {
     return this.http.get<{ [key: string]: UserCardFetch }>(
       `https://resto-57119.firebaseio.com/usercards.json?`
     ).subscribe(resData => {
+      console.log('resdata de fetchonlyusercartas:',resData);
       const usercards = [];
       for (const key in resData) {
         if (resData.hasOwnProperty(key) && resData[key].userId === id) {
           usercards.push(
             new Usercard(
               key,
-              resData[key].photo,
+              resData[key].imageUrl,
               resData[key].name,
               resData[key].address,
               resData[key].points,
@@ -90,7 +135,7 @@ export class UsercardsService {
         if (resData.hasOwnProperty(key)) {
           Usercardarr.push(new Usercard(
             key,
-            resData[key].photo,
+            resData[key].imageUrl,
             resData[key].name,
             resData[key].address,
             resData[key].points,
@@ -136,7 +181,7 @@ export class UsercardsService {
           const oldExe = updatedusercards[updatedExerciseIndex];
           updatedusercards[updatedExerciseIndex] = new Usercard(
             oldExe.id,
-            oldExe.photo,
+            oldExe.imageUrl,
             oldExe.name,
             oldExe.address,
             points,
@@ -150,7 +195,7 @@ export class UsercardsService {
           );
       }), tap(() => {
         this._usercards.next(updatedusercards);
-        console.log(updatedusercards);
+        console.log('updatedusercards from updatecard function service:',updatedusercards);
       })
       );
     }

@@ -1,0 +1,20 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    }
+    
+    .container-text {
+        width: 250px;
+        text-align: center;
+    }
+
+.top-container-info-user {
+    background-color: rgb(26, 161, 214);
+}
+
+.container-buttons {
+    height: 100%;
+    bottom: 0;
+}

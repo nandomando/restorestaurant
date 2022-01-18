@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
+import { SharedModule } from '../shared/shared.module';
 
 import { RestoinfoPageRoutingModule } from './restoinfo-routing.module';
 
@@ -13,7 +14,8 @@ import { RestoinfoPage } from './restoinfo.page';
     CommonModule,
     ReactiveFormsModule,
     IonicModule,
-    RestoinfoPageRoutingModule
+    RestoinfoPageRoutingModule,
+    SharedModule
   ],
   declarations: [RestoinfoPage]
 })

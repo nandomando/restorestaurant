@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -16,8 +16,8 @@ import { ScanPage } from './scan.page';
     FormsModule,
     IonicModule,
     ScanPageRoutingModule,
-    NgxQRCodeModule
   ],
+  providers: [BarcodeScanner],
   declarations: [ScanPage]
 })
 export class ScanPageModule {}

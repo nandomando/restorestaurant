@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UsercardsService } from '../usercards.service';
+import { UserinfoService } from '../userinfo.service';
+
+import { Userinfo } from '../userinfo.model';
 
 import { Usercard } from '../usercard.model';
 import { AuthService } from '../auth/auth.service';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-editusercard',
@@ -14,7 +18,11 @@ import { Router } from '@angular/router';
 })
 export class EditusercardPage implements OnInit {
 
+
   loadeduseronlyrestocards: Usercard[];
+  loadedcurrentuserinfo: Userinfo[];
+  currentUserCard: Usercard[];
+  isLoading = false;
   uId = null;
   userId = this.authService.userId.subscribe(data => {
     this.uId = data;
@@ -25,31 +33,45 @@ export class EditusercardPage implements OnInit {
   });
 
 
-  constructor(
+  currentuserinfoSub = this.userinfoService.usersinfo.subscribe(userinfo => {
+    this.loadedcurrentuserinfo = userinfo;
+    });
+
+
+
+
+
+
+constructor(
     private usercardsService: UsercardsService,
     private authService: AuthService,
     private loadingCtrl: LoadingController,
     private router: Router,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private userinfoService: UserinfoService,
 
   ) { }
 
 
-  ngOnInit() {
-
+ngOnInit() {
+  this.isLoading = true;
+  if (this.userinfoService.fetchOnlyUserinfo) {
+    this.isLoading = false;
   }
+}
 
-  redirect() {
+redirect() {
     this.router.navigate(['/tabs/tab/home']);
   }
 
-  getcurrentusercard() {
+getcurrentusercard() {
     let currentuser: Usercard;
     for (const element of this.loadeduseronlyrestocards) {
+      // console.log(this.loadeduseronlyrestocards);
       if (element.restoId === this.uId) {
         currentuser = new Usercard(
           element.id,
-          element.photo,
+          element.imageUrl,
           element.name,
           element.address,
           element.points,
@@ -59,11 +81,20 @@ export class EditusercardPage implements OnInit {
         );
       }
     }
+    // console.log('currentuser:',this.currentuser);
     return currentuser;
   }
 
 
-  addcardpoints() {
+currentusercardpoints() {
+  let userpoints: number;
+  const currentusercard = this.getcurrentusercard();
+  userpoints = currentusercard.points
+  console.log('userpoints:', userpoints);
+  return userpoints;
+}
+
+addcardpoints() {
     let id: string;
     let points: number;
     let freemeal: number;
@@ -98,7 +129,7 @@ export class EditusercardPage implements OnInit {
     });
   }
 
-  deletefreemeals() {
+deletefreemeals() {
     let id: string;
     let points: number;
     let freemeal: number;

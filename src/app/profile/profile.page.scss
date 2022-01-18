@@ -1,0 +1,32 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    }
+    
+    .container-text {
+        width: 250px;
+        text-align: center;
+    }
+
+.top-container-info-user {
+    background-color: rgb(26, 161, 214);
+}
+
+.bottom-container-info-user {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 200px;
+}
+
+.promofeature {
+    opacity: 0.5;
+}
+
+.container-promos {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}

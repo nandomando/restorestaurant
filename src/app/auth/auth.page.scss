@@ -1,0 +1,32 @@
+.auth-background {
+    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7) ), url('../img/empanadas.jpg');
+    background-position:center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.7);
+    flex-direction: column;
+    justify-content: stretch;
+}
+
+.hero-form-input {
+    opacity: 0.87;
+}
+
+.logo {
+    content: url('logoresto.png');
+    width: 300px;
+}
+
+
+.container-top {
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container-form {
+    height: 100%;
+    bottom: 0;
+}

@@ -6,6 +6,8 @@ import { BehaviorSubject, from } from 'rxjs';
 import { User } from './user.model';
 import { map, tap } from 'rxjs/operators';
 import { Plugins } from '@capacitor/core';
+import { AlertController } from '@ionic/angular';
+
 
 export interface AuthResponseData {
   idToken: string;
@@ -60,7 +62,7 @@ export class AuthService implements OnDestroy {
     );
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private alertCtrl: AlertController) { }
 
   autoLogin() {
     return from(Plugins.Storage.get({ key: 'authData' })).pipe(
@@ -115,6 +117,24 @@ export class AuthService implements OnDestroy {
       }`,
       { email: email, password: password, returnSecureToken: true }
     ).pipe(tap(this.setUserData.bind(this)));
+  }
+
+
+  resetpassword(emailstring: string) {
+    return this.http.post<AuthResponseData>(
+      `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${
+        environment.firebaseAPIKey
+      }`,
+      { requestType: 'PASSWORD_RESET', emailstring}
+    ).subscribe(() => {
+      this.alertCtrl
+      .create({
+        header: 'Request has been send',
+        message: 'Please check your E-mail',
+        buttons: ['Okay']
+      })
+      .then(alertEl => alertEl.present());
+    });
   }
 
   logout() {

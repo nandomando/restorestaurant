@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 
 import { AuthService, AuthResponseData } from './auth.service';
 
+
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.page.html',
@@ -14,6 +15,8 @@ import { AuthService, AuthResponseData } from './auth.service';
 export class AuthPage implements OnInit {
   isLoading = false;
   isLogin = true;
+  emailstring: string;
+  currentuseremailinfo: string;
 
 
   constructor(
@@ -21,6 +24,7 @@ export class AuthPage implements OnInit {
     private router: Router,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
+
   ) {}
 
 
@@ -42,6 +46,7 @@ export class AuthPage implements OnInit {
         }
         authObs.subscribe(
           resData => {
+            this.currentuseremailinfo = resData.email;
             this.isLoading = false;
             loadingEl.dismiss();
             if (resData.registered) {
@@ -69,6 +74,43 @@ export class AuthPage implements OnInit {
 
   onSwitchAuthMode() {
     this.isLogin = !this.isLogin;
+  }
+
+  emailgetter(ev) {
+    this.emailstring = ev.target.value;
+  }
+
+  resetPassword() {
+    if (!this.emailstring) {
+      this.alertCtrl
+      .create({
+        header: 'To Reset Password',
+        message: 'Please enter an E-mail',
+        buttons: ['Okay']
+      })
+      .then(alertEl => alertEl.present());
+    } else {
+      this.alertCtrl.create({
+        header: 'Reset Password',
+        message: 'Are you sure you want to reset your password?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              return;
+            }
+          },
+          {
+            text: 'Yes',
+            handler: () => {
+              this.authService.resetpassword(this.emailstring);
+            }
+          }
+        ]
+      }).
+      then(alertEl => alertEl.present());
+    }
   }
 
   onSubmit(form: NgForm) {

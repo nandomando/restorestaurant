@@ -1,4 +1,57 @@
-<ion-header>
+
+<ion-content>
+  <ion-grid style="padding: 0;">
+    <ion-row>
+      <ion-col size-md="6" offset-md="3" class="ion-text-center" *ngIf="isLoading">
+        <div class="wrapper">
+          <div class="container-text">
+            <ion-spinner color="primary"></ion-spinner>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  <div *ngIf="!isLoading" >
+    <div *ngFor="let e of loadedRestocards">
+      <div class="top-container-info-user">
+        <ion-grid >
+          <ion-row>
+            <ion-col class="ion-text-center" style="height: 40vh; display: flex; flex-direction: column; justify-content: center;">
+              <div style="margin: auto;">
+                <h1 style="color: white; font-size: 35px;">Welcome!</h1>
+                <ion-avatar style="width: 150px; height: 150px;">
+                  <ion-img [src]="e.imageUrl"></ion-img>
+                </ion-avatar>
+                <p style="color: white;"> {{e.name}} </p>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div class="bottom-container-info-user">
+        <ion-item lines="none">
+          <div class="container-promos">
+            <ion-label> Send Promos </ion-label>
+            <ion-label class="promofeature" >  Feature coming soon</ion-label>
+          </div>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label  > Settings </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label (click)="onLogout()" > Logout </ion-label>
+        </ion-item>
+      </div>
+    </div>
+  </div>
+
+</ion-content>
+
+
+<!-- <ion-header>
+  
   <ion-toolbar>
     <div style="display: flex; justify-content: space-between;">
       <div style="width: 72px;"></div>
@@ -19,4 +72,4 @@
     <p> user id {{ card.userId}} </p>
   </div>
   
-</ion-content>
+</ion-content> -->

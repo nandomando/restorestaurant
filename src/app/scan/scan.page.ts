@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { UsercardsService } from '../usercards.service';
 import { Router } from '@angular/router';
+
+// import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+
+
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { UserinfoService } from '../userinfo.service';
 
 
 @Component({
@@ -11,28 +16,40 @@ import { Router } from '@angular/router';
 })
 export class ScanPage implements OnInit {
 
-  scannedCode = null;
-
+  isLoading =  false;
+  idcurrentusercard = null;
   constructor(
-    private barcodeScanner: BarcodeScanner,
     private usercardsService: UsercardsService,
+    private userinfoService: UserinfoService,
     private router: Router,
+    private barcodeScanner: BarcodeScanner
 
     ) { }
 
   ngOnInit() {
+    this.isLoading = true;
+    this.barcodeScanner.scan().then(barcodeData => {
+      console.log('Barcode data', barcodeData);
+      this.idcurrentusercard = barcodeData;
+      let result = barcodeData.toString();
+      console.log('qr code result:',result);
+      this.navigator(result);
+     }).catch(err => {
+         console.log('Error', err);
+     });
+    // this.navigator('PtbAL3IZaqSOBeHSezsLFADYX7u2');
+    this.isLoading = false;
   }
 
-  scanCode() {
-    this.barcodeScanner.scan().then(barcodeData => {
-      this.scannedCode = barcodeData.text;
-    });
+
+  navigator(id) {
+    this.usercardsService.fetchOnlyUsercartas(id);
+    this.userinfoService.fetchOnlyUserinfo(id);
+    this.router.navigate(['/tabs/tab/edit']);
   }
 
   log() {
-    this.usercardsService.fetchOnlyUsercartas('aQN0au2b6lcuCz4eVdIeCqfNQvI2');
-    this.router.navigate(['/tabs/tab/edit']);
-
+    this.navigator('7iaz0spQN7RQOi6zeVnOsJUtRNb2');
   }
 
 }

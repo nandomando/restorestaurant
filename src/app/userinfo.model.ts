@@ -1,9 +1,9 @@
-export class Restocard {
+export class Userinfo {
     constructor(
         public id: string,
-        public imageUrl: string,
+        public photo: string,
         public name: string,
-        public address: string,
+        public email: string,
         public userId: string
     ) {}
 }

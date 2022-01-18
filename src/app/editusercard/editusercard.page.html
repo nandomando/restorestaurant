@@ -1,29 +1,83 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>editusercard</ion-title>
+<!-- <ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Give Points</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content>
-  <div>
-    <div>
-      <p> </p>
-      <p>  </p>
-      <p>  </p>
 
+  <ion-grid style="padding: 0;">
+    <ion-row>
+      <ion-col size-md="6" offset-md="3" class="ion-text-center" *ngIf="isLoading">
+        <div class="wrapper">
+          <div class="container-text">
+            <ion-spinner color="primary"></ion-spinner>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-    </div>
-    <ion-button (click)="redirect()" >cancel</ion-button>
-    <ion-button (click)="addcardpoints()">Add Point</ion-button>
-    <div>
-      <ion-button (click)="getcurrentusercard()">test user only</ion-button>
-      <ion-button (click)="deletefreemeals()">delete free meal</ion-button>
-    </div>
-
-    <div>
-      <h1>Congrats!!</h1>
-      <h6>Free meal</h6>
+  <div *ngIf="!isLoading" >
+    <div *ngFor="let e of loadedcurrentuserinfo">
+      <div class="top-container-info-user">
+        <ion-grid >
+          <ion-row>
+            <ion-col class="ion-text-center" style="height: 40vh; display: flex; flex-direction: column; justify-content: center;">
+              <div style="margin: auto;">
+                <h1 style="color: white;">Give Points</h1>
+                <ion-avatar style="width: 150px; height: 150px;">
+                  <ion-img [src]="e.photo"></ion-img>
+                </ion-avatar>
+                <p style="color: white;"> {{e.name}} </p>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
     </div>
   </div>
 
+  <div *ngFor='let e of loadedcurrentuserinfo'>
+    <ion-item>
+      <ion-label>
+        E-mail: {{e.email}}
+      </ion-label>
+    </ion-item>
+    <!-- <ion-item>
+      <ion-label>
+        Visitis: {{e}}
+      </ion-label>
+    </ion-item> -->
+        
+  </div>
+
+  <div *ngFor='let e of currentUserCard'>
+    <ion-item>
+      <ion-label>
+        ffff
+        Points: {{e.points}}
+        gg
+      </ion-label>
+    </ion-item>
+  </div>
+
+  <div class="container-buttons">
+    <ion-grid style="position: absolute; bottom: inherit; width: 100%;">
+      <ion-row>
+        <ion-col>
+          <!-- <ion-button (click)="getcurrentusercard()">test user only</ion-button> -->
+         <ion-button color="primary" expand="block" (click)="deletefreemeals()">delete free meal</ion-button>
+       </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-button expand="block" color="danger" (click)="redirect()" >cancel</ion-button>
+        </ion-col>
+        <ion-col size="6">
+          <ion-button expand="block" color="success" (click)="addcardpoints()">Add Point</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>

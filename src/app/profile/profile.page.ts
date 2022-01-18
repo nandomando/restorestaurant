@@ -23,7 +23,6 @@ export class ProfilePage implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
-    this.restocardService.fetchCards();
     this.restocardDestroySub = this.restocardService.restocards.subscribe(elements => {
       this.loadedRestocards = elements;
     });

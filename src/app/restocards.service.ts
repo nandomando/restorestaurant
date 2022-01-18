@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 
 
 interface CardFetch {
-  photo: string;
+  imageUrl: string;
   name: string;
   address: string;
   userId: string;
@@ -43,7 +43,7 @@ export class RestocardsService {
     switchMap(token => {
       return this.http
       .get<{[key: string]: CardFetch}>(
-        `https://restorestaurant-5f11f.firebaseio.com/restocards.json?orderBy="userId"&equalTo="${fetchedUserId}"&auth=${token}`
+        `https://restorestaurant-11270.firebaseio.com/restocards.json?orderBy="userId"&equalTo="${fetchedUserId}"&auth=${token}`
       );
     }),
     map(resData => {
@@ -52,7 +52,7 @@ export class RestocardsService {
         if (resData.hasOwnProperty(key)) {
           Cardarr.push(new Restocard(
             key,
-            resData[key].photo,
+            resData[key].imageUrl,
             resData[key].name,
             resData[key].address,
             resData[key].userId,
@@ -71,6 +71,7 @@ export class RestocardsService {
   addRestocard(
     name: string,
     address: string,
+    imageUrl: string
   ) {
     let generatedId: string;
     let fetchedUserId: string;
@@ -88,13 +89,13 @@ export class RestocardsService {
       }
       newRestocard = new Restocard(
         Math.random().toString(),
-        'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260',
+        imageUrl,
         name,
         address,
         fetchedUserId
       );
       return this.http
-      .post<{name: string}>(`https://restorestaurant-5f11f.firebaseio.com/restocards.json?auth=${token}`,
+      .post<{name: string}>(`https://restorestaurant-11270.firebaseio.com/restocards.json?auth=${token}`,
         { ...newRestocard, id: null});
     }),
       switchMap( resData => {
@@ -107,6 +108,23 @@ export class RestocardsService {
         this._restocards.next(restocards.concat(newRestocard));
       })
       );
+  }
+
+
+  uploadImage(image: File) {
+    const uploadData = new FormData();
+    uploadData.append('image', image);
+
+    return this.authService.token.pipe(
+      take(1),
+      switchMap(token => {
+       return this.http.post<{ imageUrl: string; imagePath: string }>(
+          'https://us-central1-restorestaurant-11270.cloudfunctions.net/storeImage',
+          uploadData,
+          { headers: { Authorization: 'Bearer ' + token } }
+        );
+      })
+    );
   }
 
 
