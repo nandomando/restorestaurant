@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { a as appGlobalScript } from './ionic-global-a175fa73.js';\nconst globalScripts = appGlobalScript;\nexport { globalScripts as g };","map":null,"metadata":{},"sourceType":"module"}

@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class Restocard {\n  constructor(id, imageUrl, name, address, userId) {\n    this.id = id;\n    this.imageUrl = imageUrl;\n    this.name = name;\n    this.address = address;\n    this.userId = userId;\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}
